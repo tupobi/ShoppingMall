@@ -1,0 +1,213 @@
+对于item单一的RecyclerView，设置适配器：
+1、先写ViewHolder继承自RecyclerView的ViewHolder
+2、再写泛型：public class RvSeckillAdapter extends RecyclerView.Adapter<RvSeckillAdapter.ViewHolder>
+3、然后继承三个方法
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = View.inflate(mContext, R.layout.item_of_rvseckill, null);
+        return new ViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        //1、根据位置得到对应的数据
+        HomeResutl.ResultBean.SeckillInfoBean.ListBean listBean = listData.get(position);
+
+        // 2、绑定数据
+        Glide.with(mContext).load(Constants.IMAGE_BASE_URL + listBean.getFigure()).into(holder.iv_figure);
+        holder.tv_origin_price.setText(listBean.getOrigin_price());
+        holder.tv_cover_price.setText(listBean.getCover_price());
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return listData.size();
+    }
+4、ViewHolder的示例如下：主要用于初始化item控件，设置点击事件
+    class ViewHolder extends RecyclerView.ViewHolder{
+        private ImageView iv_figure;
+        private TextView tv_cover_price;
+        private TextView tv_origin_price;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            iv_figure = itemView.findViewById(R.id.iv_figure);
+            tv_cover_price = itemView.findViewById(R.id.tv_cover_price);
+            tv_origin_price = itemView.findViewById(R.id.tv_origin_price);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onSeckillRecyclerView != null) {
+                        onSeckillRecyclerView.onItemClickListenter(getLayoutPosition());
+                    }
+                }
+            });
+        }
+    }
+5、由于RecyclerView没有点击事件，只有在ViewHolder中设置单个点击事件，不过可以用借口进行回调
+	这样在适配器外面，定义RecyclerView的类，设置适配器的地方也可以实现点击事件，接口如下：
+	这个position就是点击事件中的getLayoutPosition()
+	
+    public interface OnSeckillRecyclerView{
+        public void onItemClickListenter(int position);
+    }
+
+    private OnSeckillRecyclerView onSeckillRecyclerView;
+
+    public void setOnSeckillRecyclerView(OnSeckillRecyclerView onSeckillRecyclerView) {
+        this.onSeckillRecyclerView = onSeckillRecyclerView;
+    }
+
+以上留白为item项单一时的RecyclerView
+
+—————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+如果RecyclerView的Item项不单一，有各种布局，则不需要继承Adapter的ViewHolder泛型，直接这样
+PS：其中private final LayoutInflater mLayoutInflater;用于初始化各个子页面的布局
+设置各个子页面的顺序：
+1、在public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)方法中
+	返回：return new BannerViewHolder(mContext, mLayoutInflater.inflate(R.layout.banner_item, null));
+2、在public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)中：
+	初始化子页面的ViewHolder，并且在ViewHolder中setData();
+	case BANNER_TYPE:
+		BannerViewHolder bannerViewHolder = (BannerViewHolder) holder;
+		bannerViewHolder.setBannerData(homeResultBean.getBanner_info());
+		break;
+3、实现子页面ViewHolder中的setData()方法
+
+public class RvHomeAdapter extends RecyclerView.Adapter {
+    /**
+     * 上下文
+     */
+    private final Context mContext;
+    /**
+     * 主页面数据
+     */
+    private final HomeResutl.ResultBean homeResultBean;
+    /**
+     * 初始化各个item的布局
+     */
+    private final LayoutInflater mLayoutInflater;
+    /**
+     * 当前类型
+     */
+    private int currentType = 0;
+    /**
+     * 广告条类型
+     */
+    private static final int BANNER_TYPE = 0;
+    /**
+     * 频道类型
+     */
+    private static final int CHANNEL_TYPE = 1;
+    /**
+     * 活动类型
+     */
+    private static final int ACT_TYPE = 2;
+    /**
+     * 秒杀类型
+     */
+    private static final int SECKILL_TYPE = 3;
+    /**
+     * 推荐类型
+     */
+    private static final int RECOMMEND_TYPE = 4;
+    /**
+     * 热卖类型
+     */
+    private static final int HOT_TYPE = 5;
+	
+	
+	//构造方法一般用来传数据和上下文
+    public RvHomeAdapter(Context mContext, HomeResutl.ResultBean homeResultBean) {
+        this.mContext = mContext;
+        this.homeResultBean = homeResultBean;
+        this.mLayoutInflater = LayoutInflater.from(mContext);
+    }
+	
+    /**
+     * 相当于BaseAdapter的getView中的创建并返回ViewHolder
+     *
+     * @param parent
+     * @param viewType
+     * @return 返回相应的item的ViewHolder
+     */
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case BANNER_TYPE:
+                LogUtil.e("创建并返回ViewHolder");
+                return new BannerViewHolder(mContext, mLayoutInflater.inflate(R.layout.banner_viewpager, null));
+            default:
+                return null;
+        }
+    }
+	
+    /**
+     * 相当于BaseAdapter中getView的绑定数据
+     *
+     * @param holder
+     * @param position
+     */
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        switch (getItemViewType(position)) {
+            case BANNER_TYPE:
+                LogUtil.e("绑定banner数据");
+                BannerViewHolder bannerViewHolder = (BannerViewHolder) holder;
+                bannerViewHolder.setBannerData(homeResultBean.getBanner_info());
+                break;
+            default:
+                break;
+        }
+    }
+	
+    /**
+     * 得到item类型
+     *
+     * @param position
+     * @return
+     */
+    @Override
+    public int getItemViewType(int position) {
+        switch (position) {
+            case BANNER_TYPE:
+                currentType = BANNER_TYPE;
+                break;
+
+            case CHANNEL_TYPE:
+                currentType = CHANNEL_TYPE;
+                break;
+
+            case ACT_TYPE:
+                currentType = ACT_TYPE;
+                break;
+
+            case SECKILL_TYPE:
+                currentType = SECKILL_TYPE;
+                break;
+
+            case RECOMMEND_TYPE:
+                currentType = RECOMMEND_TYPE;
+                break;
+
+            case HOT_TYPE:
+                currentType = HOT_TYPE;
+                break;
+        }
+        return currentType;
+    }
+
+    /**
+     * 得到RecyclerView item的总数
+     * 开发过程中从1-6，写完一个加一个，不然有可能会崩，后面的没有初始化
+	 *
+     * @return
+     */
+    @Override
+    public int getItemCount() {
+        return 1;
+    }
+}

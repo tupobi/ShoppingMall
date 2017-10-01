@@ -1,0 +1,78 @@
+软件框架：PS：Fragment是v4包里的，不是APP的！
+1、五个页面继承BaseFragment
+
+2、初始化子页面
+    private void initFragment() {
+        fragments = new ArrayList<>();
+        typeFragment = new TypeFragment();
+        fragments.add(new HomeFragment());
+        fragments.add(typeFragment);
+        fragments.add(new CommunityFragment());
+        fragments.add(new ShoppingCartFragment());
+        fragments.add(new UserFragment());
+    }
+	
+3、初始化RadioGroup的监听
+    private void initListener() {
+        rgMain.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_home:
+                        position = 0;
+                        break;
+                    case R.id.rb_type:
+
+                        position = 1;
+                        break;
+                    case R.id.rb_community:
+                        position = 2;
+
+                        break;
+                    case R.id.rb_cart:
+                        position = 3;
+
+                        break;
+                    case R.id.rb_user:
+                        position = 4;
+                        break;
+                }
+
+                BaseFragment baseFragment = getFragment(position);
+                switchFragment(previousFragment, baseFragment);
+            }
+        });
+        rgMain.check(R.id.rb_home);
+    }
+	
+4、切换各个Fragment
+    private BaseFragment getFragment(int position) {
+        if (fragments != null && fragments.size() > 0) {
+            BaseFragment baseFragment = fragments.get(position);
+            return baseFragment;
+        }
+        return null;
+    }
+
+    private void switchFragment(Fragment fromFragment, BaseFragment nextFragment) {
+        if (previousFragment != nextFragment) {
+            previousFragment = nextFragment;
+            if (nextFragment != null) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                //判断nextFragment是否添加
+                if (!nextFragment.isAdded()) {
+                    //隐藏当前Fragment
+                    if (fromFragment != null) {
+                        transaction.hide(fromFragment);
+                    }
+                    transaction.add(R.id.frameLayout, nextFragment).commit();
+                } else {
+                    //隐藏当前Fragment
+                    if (fromFragment != null) {
+                        transaction.hide(fromFragment);
+                    }
+                    transaction.show(nextFragment).commit();
+                }
+            }
+        }
+    }

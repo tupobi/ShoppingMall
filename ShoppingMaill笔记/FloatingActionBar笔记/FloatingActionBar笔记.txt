@@ -1,0 +1,16 @@
+1、引入compile 'com.android.support:design:26.0.0-alpha1'库依赖
+
+2、事件点击基本和Button一样
+
+关键属性：
+android:clickable="true"  //这个一定要加上，否则无法展示点击效果。点击效果有渐变哦！
+
+app:backgroundTint="#ff87ffeb" //背景填充色
+app:rippleColor="#000000"      //点击后背景填充色，两者会有渐变效果	
+
+android:elevation="5dp"   //设置正常情况下控件的高度，高度越高投影范围越大，效果越淡。
+app:pressedTranslationZ="8dp" //点击后阴影效果
+//elevation和pressedTranslationZ：
+//前者用户设置正常显示的阴影大小；后者是点击时显示的阴影大小
+
+参考：http://blog.csdn.net/lmj623565791/article/details/46678867，或第一行代码425页

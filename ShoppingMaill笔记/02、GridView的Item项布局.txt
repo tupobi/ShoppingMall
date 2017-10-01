@@ -1,0 +1,34 @@
+GridView为网格布局，可以设置多少列，每一项对应的是一样的布局，布局如下：
+PS:GridView高不能wrap_content这样只有一行，RecyclerView则可以设置高为wrap_content，效果更好！。
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="8dp">
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:id="@+id/iv_channel_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/menu_cyc" />
+
+    <TextView
+        android:layout_marginTop="3dp"
+        android:id="@+id/tv_channel_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="111"
+        android:textColor="#000"
+        android:textSize="12sp" />
+
+</LinearLayout>
+
+PS：对比GridView和RecyclerView：
+1、GridView高不能wrap_content这样只有一行，RecyclerView则可以设置高为wrap_content，效果更好！
+2、滑动至顶部或者底部，GridView的item点击事件有时候会失效，后者不会。
+3、RecyclerView可以实现适配器的监听单个item

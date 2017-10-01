@@ -1,0 +1,15 @@
+1、条件：RecyclerView的LayoutManager得用GridLayoutManager，才有setSpanSizeLookup()方法。
+	并且LinearLayoutManager宽度不能填充父窗体，GridLayoutManager可以。
+
+2、方法：
+            manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if (position <= 3) {
+                        fab_return_top.setVisibility(View.GONE);
+                    } else {
+                        fab_return_top.setVisibility(View.VISIBLE);
+                    }
+                    return 1;//跨度为1，大于1会崩溃
+                }
+            });

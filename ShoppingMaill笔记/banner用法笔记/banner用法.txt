@@ -1,0 +1,62 @@
+﻿https://github.com/youth5201314/banner 中有用法详解
+
+0、库依赖，加上权限：
+dependencies{
+    compile 'com.youth.banner:banner:1.4.10'  //最新版本
+}
+//添加权限
+<uses-permission android:name="android.permission.INTERNET" /> 
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+ <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+//文件读取写入，三级缓存可能会用到
+
+1、控件定义：
+    <com.youth.banner.Banner
+        android:id="@+id/banner_home"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        app:banner_default_image="@drawable/atguigu_logo"
+        app:delay_time="4000"
+        app:image_scale_type="fit_xy"
+        app:indicator_height="5dp"
+        app:indicator_width="5dp"
+        app:is_auto_play="true"/>
+		
+2、属性解析：
+app:is_auto_play="true"			//是否轮播
+app:delay_time="4000"			//轮播时间间隔
+app:indicator_width="5dp"		//指示器圆形按钮的高度宽度
+app:image_scale_type="fit_xy"	//和imageview的scaleType一样
+app:banner_default_image="@drawable/atguigu_logo"	//默认图片
+title_background				//标题背景
+title_textcolor					//标题字体颜色
+title_textsize					//标题字体大小
+title_height					//标题栏高度
+indicator_drawable_selected		//指示器选中效果
+indicator_drawable_unselected	//指示器未选中效果
+
+3、设置banner的数据
+        public void setBannerData(List<HomeResutl.ResultBean.BannerInfoBean> banner_info) {
+            List<String> imageURLList = new ArrayList<>();
+            for (int i=0; i<banner_info.size(); i++) {
+                String imagerURL = banner_info.get(i).getImage();
+                imageURLList.add(Constants.IMAGE_BASE_URL + imagerURL);
+            }
+
+            bannerHome.setImages(imageURLList);
+
+            bannerHome.setImageLoader(new ImageLoader() {
+                @Override
+                public void displayImage(Context context, Object path, ImageView imageView) {
+                    Glide.with(context.getApplicationContext()).load(path).into(imageView);
+                }
+            });
+
+            //设置翻页时的动画，这里是手风琴。还可以由背景到前景：BackgroundToForeground，这样的话把banner背景为主题色调非常和谐。
+            bannerHome.setBannerAnimation(Transformer.Accordion);
+
+            //这个方法必须有！！
+            bannerHome.start();
+        }
+其中setImageLoader，监听中的方法中的path即为setImages时图片url的列表中的一个。
+PS：banner.start()方法必须有，否则无法显示

