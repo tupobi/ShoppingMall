@@ -24,7 +24,7 @@ public class MyApplication extends Application {
     }
 }
 */
-class SpUtils {
+public class SpUtils {
     private static SpUtils instance = new SpUtils();
     private static SharedPreferences mSp;
 

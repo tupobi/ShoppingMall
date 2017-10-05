@@ -1,4 +1,4 @@
-package com.example.administrator.shoppingmall.home;
+package com.example.administrator.shoppingmall.home.fragment;
 
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;

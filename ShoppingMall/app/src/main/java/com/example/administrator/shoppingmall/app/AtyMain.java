@@ -12,8 +12,8 @@ import android.widget.RadioGroup;
 import com.example.administrator.shoppingmall.R;
 import com.example.administrator.shoppingmall.base.BaseFragment;
 import com.example.administrator.shoppingmall.community.CommunityFragment;
-import com.example.administrator.shoppingmall.home.HomeFragment;
-import com.example.administrator.shoppingmall.shoppingcart.ShoppingCartFragment;
+import com.example.administrator.shoppingmall.home.fragment.HomeFragment;
+import com.example.administrator.shoppingmall.shoppingcart.fragment.ShoppingCartFragment;
 import com.example.administrator.shoppingmall.type.TypeFragment;
 import com.example.administrator.shoppingmall.user.UserFragment;
 
@@ -111,7 +111,8 @@ public class AtyMain extends FragmentActivity {
                 if (!nextFragment.isAdded()) {
                     //隐藏当前Fragment
                     if (fromFragment != null) {
-                        transaction.hide(fromFragment);
+//                        transaction.hide(fromFragment);
+                        transaction.remove(fromFragment);
                     }
                     transaction.add(R.id.frameLayout, nextFragment).commit();
                 } else {
